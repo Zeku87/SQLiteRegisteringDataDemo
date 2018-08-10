@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String EMPLOYEE_TABLE_NAME = "employee";
-    private static final String EMPLOYEE_TABLE_SQL = "create table " + EMPLOYEE_TABLE_NAME + "(name TEXT,email TEXT primary key,role TEXT,address TEXT,department TEXT)";
+    private static final String EMPLOYEE_TABLE_SQL = "create table " + EMPLOYEE_TABLE_NAME + "(name TEXT,email TEXT primary key,password TEXT,role TEXT,department TEXT)";
 
 
     private static DatabaseHelper databaseHelper = null;
@@ -48,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     ///// INSERTION /////
 
-    public void insertEmployee(String name, String email, String role, String address, String department){
+    public void insertEmployee(String name, String email, String password, String role, String department){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("name", name);
         contentValues.put("email", email);
         contentValues.put("role", role);
-        contentValues.put("address", address);
+        contentValues.put("password", password);
         contentValues.put("department", department);
 
         db.insert(EMPLOYEE_TABLE_NAME, null, contentValues);
@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 employee.setName(cursor.getString(0));
                 employee.setEmail(cursor.getString(1));
                 employee.setRole(cursor.getString(2));
-                employee.setAddress(cursor.getString(3));
+                employee.setPassword(cursor.getString(3));
                 employee.setDepartment(cursor.getString(4));
 
                 employees.add(employee);
@@ -95,6 +95,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return employees;
+    }
+
+    public int getEmployeesCount(){
+
+        int employeesCount = 0;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT count(*) FROM " + EMPLOYEE_TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+            employeesCount = cursor.getInt(0);
+            cursor.close();
+        }
+
+        db.close();
+
+        return employeesCount;
     }
 
     ///// DELETION /////

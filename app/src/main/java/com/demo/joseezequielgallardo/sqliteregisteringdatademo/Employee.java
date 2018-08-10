@@ -3,8 +3,8 @@ package com.demo.joseezequielgallardo.sqliteregisteringdatademo;
 public class Employee {
     private String name;
     private String email;
+    private String password;
     private String role;
-    private String address;
     private String department;
 
     public String getName() {
@@ -23,12 +23,12 @@ public class Employee {
         this.role = role;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getDepartment() {
